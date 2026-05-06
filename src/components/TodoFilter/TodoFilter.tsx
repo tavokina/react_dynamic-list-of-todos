@@ -1,19 +1,23 @@
-
 type Props = {
-  filter: string,
-  onChangeFilter: (value: string) => void,
-  query: string,
-  onChangeQuery: (value: string) => void,
-}
+  filter: string;
+  onChangeFilter: (value: string) => void;
+  query: string;
+  onChangeQuery: (value: string) => void;
+};
 
-export const TodoFilter: React.FC<Props>= ({ filter, onChangeFilter, query, onChangeQuery }) => (
+export const TodoFilter: React.FC<Props> = ({
+  filter,
+  onChangeFilter,
+  query,
+  onChangeQuery,
+}) => (
   <form className="field has-addons">
     <p className="control">
       <span className="select">
         <select
           data-cy="statusSelect"
           value={filter}
-          onChange={(e) => onChangeFilter(e.target.value)}
+          onChange={e => onChangeFilter(e.target.value)}
         >
           <option value="all">All</option>
           <option value="active">Active</option>
@@ -29,24 +33,21 @@ export const TodoFilter: React.FC<Props>= ({ filter, onChangeFilter, query, onCh
         className="input"
         placeholder="Search..."
         value={query}
-        onChange={(e) => onChangeQuery(e.target.value)}
+        onChange={e => onChangeQuery(e.target.value)}
       />
       <span className="icon is-left">
         <i className="fas fa-magnifying-glass" />
       </span>
 
       {query && (
-        <span
-          className="icon is-right"
-          style={{ pointerEvents: 'all' }}
-        >
-        {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-        <button
-          data-cy="clearSearchButton"
-          type="button"
-          className="delete"
-          onClick={() => onChangeQuery('')}
-        />
+        <span className="icon is-right" style={{ pointerEvents: 'all' }}>
+          {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+          <button
+            data-cy="clearSearchButton"
+            type="button"
+            className="delete"
+            onClick={() => onChangeQuery('')}
+          />
         </span>
       )}
     </p>

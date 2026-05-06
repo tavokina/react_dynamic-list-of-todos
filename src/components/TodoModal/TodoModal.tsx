@@ -3,22 +3,24 @@ import { Loader } from '../Loader';
 import { Todo } from '../../types/Todo';
 import { getUser } from '../../api';
 import { User } from '../../types/User';
+import classNames from 'classnames';
 
 type Props = {
-  selectedTodo: Todo,
-  onClose: () => void
-}
+  selectedTodo: Todo;
+  onClose: () => void;
+};
 export const TodoModal: React.FC<Props> = ({ selectedTodo, onClose }) => {
   const [modalLoading, setModalLoading] = useState(false);
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     setModalLoading(true);
     getUser(selectedTodo.userId)
       .then(setUser)
-      .finally(() => setModalLoading(false))
-  }, [selectedTodo.userId])
+      .finally(() => setModalLoading(false));
+  }, [selectedTodo.userId]);
 
+  const isCompleted = selectedTodo.completed;
   return (
     <div className="modal is-active" data-cy="modal">
       <div className="modal-background" />
@@ -39,25 +41,23 @@ export const TodoModal: React.FC<Props> = ({ selectedTodo, onClose }) => {
             <button
               type="button"
               className="delete"
-                data-cy="modal-close"
-                onClick={onClose}
+              data-cy="modal-close"
+              onClick={onClose}
             />
           </header>
 
           <div className="modal-card-body">
-            <p
-              className="block"
-              data-cy="modal-title"
-            >
+            <p className="block" data-cy="modal-title">
               {selectedTodo.title}
             </p>
 
             <p className="block" data-cy="modal-user">
-                {selectedTodo.completed
-                  ? <strong className="has-text-success">Done</strong>
-                  : <strong className="has-text-danger">Planned</strong>
+                <strong className={
+                  classNames(isCompleted ? "has-text-success" : "has-text-danger")
                 }
-
+                >
+                  {isCompleted ? 'Done' : 'Planned'}
+                </strong>
 
               {' by '}
 
@@ -66,6 +66,6 @@ export const TodoModal: React.FC<Props> = ({ selectedTodo, onClose }) => {
           </div>
         </div>
       )}
-      </div>
-    )
+    </div>
+  );
 };

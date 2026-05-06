@@ -10,7 +10,6 @@ import { Loader } from './components/Loader';
 import { Todo } from './types/Todo';
 import { getTodos } from './api';
 
-
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [loading, setLoading] = useState(false);
@@ -18,19 +17,18 @@ export const App: React.FC = () => {
   const [filter, setFilter] = useState('all');
   const [query, setQuery] = useState('');
 
-
   useEffect(() => {
     setLoading(true);
     getTodos()
       .then(setTodos)
-      .finally(() => setLoading(false))
-  }, [])
+      .finally(() => setLoading(false));
+  }, []);
 
   const filteredTodos = useMemo(() => {
     const normalizedQuery = query.toLowerCase().trim();
 
-    return (
-      todos.filter(todo => {
+    return todos
+      .filter(todo => {
         if (filter === 'active') {
           return !todo.completed;
         }
@@ -41,9 +39,8 @@ export const App: React.FC = () => {
 
         return true;
       })
-      .filter(todo => todo.title.toLowerCase().includes(normalizedQuery))
-    )
-  }, [todos, filter, query])
+      .filter(todo => todo.title.toLowerCase().includes(normalizedQuery));
+  }, [todos, filter, query]);
 
   return (
     <>
@@ -62,9 +59,7 @@ export const App: React.FC = () => {
             </div>
 
             <div className="block">
-              {loading && (
-                <Loader />
-              )}
+              {loading && <Loader />}
 
               {!loading && todos.length > 0 && (
                 <TodoList
